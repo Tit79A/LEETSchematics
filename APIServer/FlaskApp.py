@@ -1,6 +1,5 @@
 import os
-import io
-from flask import Flask, send_from_directory, send_file, request
+from flask import Flask, send_from_directory, make_response, request
 from libraries import JSONToLEET, LEETToJSON, GlobalTools, NBTSchematicsTools
 from werkzeug.utils import secure_filename
 
@@ -39,7 +38,10 @@ def apiGET(path):
                     try:
                         NBTSchematicsTools.generateSchematicFromBlocksFile("../output/json/" + secure_filename(parsedURL[1]) + ".json", "../output/schematic/")
                         with open("../output/schematic/" + secure_filename(parsedURL[1]) + ".schematic", 'rb') as f:
-                            return send_file(io.BytesIO(f.read()), attachment_filename = secure_filename(parsedURL[1]) + ".schematic", mimetype = "application/octet-stream")
+                            response = make_response(f.read())
+                            response.headers['Content-Type'] = 'application/octet-stream'
+                            response.headers["Content-Disposition"] = "attachment; filename={}".format(secure_filename(parsedURL[1]) + ".schematic")
+                            return response
                     except:
                         return "Unable to generate the file, please try again."
                 else:
