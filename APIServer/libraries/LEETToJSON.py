@@ -111,7 +111,7 @@ def LTJManager(parsedURLArgs):
         elif parsedURLArgs[0] == "end":
             return EndHandler(parsedURLArgs[1:])
         elif parsedURLArgs[0] == "getMaxSize":
-            return maxSize
+            return str(maxSize)
         else:
             return "Error : Invalid argument(s)."
     else:
