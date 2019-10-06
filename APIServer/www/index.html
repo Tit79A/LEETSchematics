@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Allows you to save your builds or make new ones appear on your LEET.cc server!">
+		<title>LEET Schematics</title>
+		<link rel="icon" type="image/x-icon" href="favicon.png" />
+		<link rel="stylesheet" href="style.css" type='text/css'>
+	</head>
+
+	<body>
+		<div id="mainContainer">
+			<h1>LEET Schematics</h1>
+			
+			<hr>
+			
+			<div class="optionDiv">
+				<h2>Download a construction</h2>
+				<p>If you have sent a build to the sky from your server and want to download it as a ".schematic" file, just enter the "token" given by the server at the end of the process.</p>
+				<form id="downloadForm" method="get">
+					<input type="text" id="token" name="token" placeholder="Enter your token">
+					<button type="button" onclick="downloadSchematicByToken()">Download</button>
+				</form>
+			</div>
+			
+			<hr>
+			
+			<div class="optionDiv">
+				<h2>Upload a construction</h2>
+				<p>If you find that another person's creation is really cool and you are lazy to copy it by yourself, load the".schematic" file here. You will get a "token" to make it magically appear on your server.</p>
+				<form id="uploadForm" enctype="multipart/form-data">
+					<input type="file" id="file" name="file">
+					<button type="button" onclick="sendSchematicFile()">Upload</button>
+				</form>
+			</div>
+			
+			<hr>
+			
+			<h3>Made by Tit79 - Source code available on <a href="https://github.com/Tit79/LEETSchematics" target="_blank">GitHub</a></h3>
+		</div>
+		
+		<div class="infoBox">
+			<div class="infoBoxInner">
+				<span class="closeinfoBox">×</span>
+				<div id="infoBoxInnerText">
+					<span class="loadingText">Waiting<div class="loader"></div></span>
+				</div>
+			</div>
+		</div>
+		
+		<script src="javascript.js"></script>
+	</body>
+</html>
+

@@ -1,0 +1,164 @@
+body {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 0.8em;
+	background-color:white;
+	background-image:url(background.jpg);
+	background-size: cover;
+	background-position: center center;
+	background-attachment:fixed;
+	background-repeat:no-repeat;
+}
+
+#mainContainer {
+	margin: auto;
+	margin-top: 50px;
+	max-width: 30em;
+	padding: 1em;
+	border: 2px solid #000;
+	border-radius: 1rem;
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+.optionDiv {
+	margin-left:10px;
+	margin-right:10px;
+}
+
+h1 {
+	text-align: center;
+	font-weight: bold;
+	font-size: 2em;
+}
+
+h2 {
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.2em;
+	margin-bottom: 0px;
+	padding-bottom: 10px;
+	margin-top: 0px;
+	padding-top: 10px;
+}
+
+h3 {
+	text-align: center;
+	font-weight: normal;
+	font-size: 0.8em;
+	margin-bottom: 0px;
+	padding-bottom: 10px;
+	margin-top: 0px;
+	padding-top: 10px;
+}
+
+p {
+	text-align: justify;
+	text-justify: auto;
+	margin: 0px;
+	padding: 0px;
+}
+
+hr {
+	border-top: 1px solid #888;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+form {
+	text-align: center;
+}
+
+input {
+	border: 1px solid #888;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	text-align:center;
+	background-color: #fff;
+	font-size: 0.9em;
+	padding: 0.3em;
+	border-radius: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+button {
+	border-radius: 5px;
+	background: #eee;
+	border: 1px solid #888;
+	line-height: 23px;
+	font-weight: bold;
+}
+
+button:hover {
+	background: #ccc;
+	cursor: pointer;
+}
+
+.infoBox {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.infoBoxInner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	background-color: rgba(255, 255, 255, 0.8);
+    padding: 1rem 1.5rem;
+    width: 24rem;
+	border: 2px solid #000;
+    border-radius: 1rem;
+}
+
+.closeinfoBox {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+
+.closeinfoBox:hover {
+    background-color: darkgray;
+}
+
+.showinfoBox {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+#infoBoxInnerText {
+	text-align: center;
+}
+
+.loadingText {
+	font-size: 1.5em;
+}
+
+.loader {
+	border: 0.25em solid lightgray;
+	border-top: 0.25em solid black;
+	margin-left: 10px;
+	border-radius: 50%;
+	display: inline-block;
+	vertical-align: middle;
+	width: 1em;
+	height: 1em;
+	animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
