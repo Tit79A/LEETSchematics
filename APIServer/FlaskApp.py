@@ -10,6 +10,10 @@ app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 5000000
 
 
+os.chdir(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'www'))
+GlobalTools.makeNeededDirectories()
+
+
 @app.route('/', methods=['GET'])
 def serveIndex():
     return send_from_directory(static_file_dir, 'index.html')

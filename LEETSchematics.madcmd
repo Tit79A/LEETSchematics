@@ -1,5 +1,5 @@
 cmd create ls Allows you to save your builds or make new ones appear!
-cmd add ls let %apiURL% = \"http://lwpdl.pythonanywhere.com//api\"
+cmd add ls let %apiURL% = \"http://lwpdl.pythonanywhere.com/api\"
 cmd add ls if varset(%args%[1]) then goto 5
 cmd add ls message %p% §f[§a§lLS§r§f] What do you want to do? Use '§c/ls help§f' to see the list of available commands.
 cmd add ls exit

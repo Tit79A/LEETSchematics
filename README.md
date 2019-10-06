@@ -31,7 +31,7 @@ You have a friend who would like to have your beautiful construction on his serv
  4. **Type** ```/ls save go``` and wait for the end of the process.
  5. **Send** the token to your friend.
  6. Your friend **must stand** at the place **and look** in the direction in which he wants the construction to appear.
- 7. He just has to **type** ```/ls paste <token>``` and wait for the build to appear.
+ 7. He just has to **type** ```/ls paste go <token>``` and wait for the build to appear.
 
 ### ③ Uploading a construction
 You found a really cool build on Internet and you would like to have it on your server? Simply follow these steps:
@@ -39,7 +39,7 @@ You found a really cool build on Internet and you would like to have it on your 
  2. **Import** the file "*.schematic*" with the corresponding section.
  3. **Wait** until the import is finished and remember the token.
  4. **Go** to your server, **stand** at the place **and look** in the direction in which you want the construction to appear.
- 5. Just **type** ```/ls paste <token>``` and wait for the build to appear.
+ 5. Just **type** ```/ls paste go <token>``` and wait for the build to appear.
 
 ## Set up your own API server
 
