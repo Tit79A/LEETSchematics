@@ -40,7 +40,7 @@ def readBlocksFromSchematicFile(inputFile,outputDirectory):
             for x in range (0, outputData["width"]):
                 for y in range (0, outputData["height"]):
                     for z in range (0, outputData["length"]):
-                        outputData["blocks"].append(str(int(schematic.blocks[x,y,z])) + ":" + str(int(schematic.data[x,y,z])))
+                        outputData["blocks"].append(str(int(schematic.blocks[y,z,x])) + ":" + str(int(schematic.data[y,z,x])))
             
             outputFile = open(outputDirectory + "/" + os.path.splitext(os.path.basename(inputFile))[0] + ".json", "w")
             outputFile.write(json.dumps(outputData))
