@@ -34,7 +34,7 @@ def readBlocksFromSchematicFile(inputFile,outputDirectory):
             schematic = SchematicFile.load(inputFile)
             
             outputData = {}
-            outputData["width"], outputData["height"], outputData["length"] = schematic.blocks.shape
+            outputData["height"], outputData["length"], outputData["width"] = schematic.blocks.shape
             outputData["blocks"] = []
             
             for x in range (0, outputData["width"]):
