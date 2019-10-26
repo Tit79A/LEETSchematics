@@ -1,5 +1,3 @@
-
-
 # LEETSchematics
 
 **LEETSchematics** is a tool that allows you to work with "*.schematic*" files on a [LEET.CC](https://leet.cc) server. It is divided into two parts: a **MadCommands** script that runs on the game server and a **Python** program that processes data and requests.
@@ -12,6 +10,8 @@
 ## How to use it
 
 In order to be able to use this tool, you must have **MadCommands** plugin on your server. Then all you have to do is to copy all the commands in the [LEETSchematics.madcmd](LEETSchematics.madcmd) file to your server (directly or with the help of a [RCON tool](https://edroid.me/projects/rcon++/beta/)). You will find below some examples and you can use the command ```/ls help``` to see all the features.
+
+(NOTE: you may need to increase the maximum processing time using the ```/cmd config proc-max-time <newMaxTime>``` command)
 
 ### ① Save your constructions
 You want to convert one of your constructions into a "*.schematic*" file? Simply follow these steps:
