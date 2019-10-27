@@ -2,6 +2,9 @@
 
 **LEETSchematics** is a tool that allows you to work with "*.schematic*" files on a [LEET.CC](https://leet.cc) server. It is divided into two parts: a **MadCommands** script that runs on the game server and a **Python** program that processes data and requests.
 
+**YouTube video:**
+[![Download your LEET.CC server builds with LEETSchematics !](https://img.youtube.com/vi/dHNxzbpxYYY/mqdefault.jpg)](https://www.youtube.com/watch?v=dHNxzbpxYYY "Download your LEET.CC server builds with LEETSchematics !")
+
 **It allows you to:**
 - **Generate and download** a "*.schematic*" file from a construction on your server.
 - **Share builds** between servers.
