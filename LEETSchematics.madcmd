@@ -8,7 +8,7 @@ cmd add ls if varset(%args%[1]) then goto 9
 cmd add ls message %p% §f[§a§lLS§r§f] What do you want to do? Use '§c/ls help§f' to see the list of available commands.
 cmd add ls exit
 cmd add ls if %args%[1] = \"help\" then goto 14
-cmd add ls if %args%[1] = \"save\" then goto 15
+cmd add ls if %args%[1] = \"save\" then goto 16
 cmd add ls if %args%[1] = \"paste\" then goto 142
 cmd add ls message %p% §f[§a§lLS§r§f] I don't have this feature... Use '§c/ls help§f' to check if you have not made a mistake.
 cmd add ls exit
