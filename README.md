@@ -13,16 +13,16 @@
 
 ## How to use it
 
-In order to be able to use this tool, you must have **MadCommands** plugin on your server. Then all you have to do is to copy all the commands in the [LEETSchematics.madcmd](LEETSchematics.madcmd) file to your server (directly or with the help of a [RCON tool](https://edroid.me/projects/rcon++/beta/)). You will find below some examples and you can use the command ```/ls help``` to see all the features.
+In order to be able to use this tool, you must have **MadCommands** plugin on your server. Then all you have to do is to copy all the commands in the [LEETSchematics.madcmd](LEETSchematics.madcmd) file to your server (directly or with the help of a [RCON tool](https://edroid.me/projects/rcon++/beta/)). You will find below some examples and you can use the command ```/lschem help``` to see all the features.
 
 (NOTE: you may need to increase the maximum processing time using the ```/cmd config proc-max-time <newMaxTime>``` command)
 
 ### ① Save your constructions
 You want to convert one of your constructions into a "*.schematic*" file? Simply follow these steps:
  1. **Find** the construction that you want to download.
- 2. Go to **the first corner** and type the command ```/ls save pos1```.
- 3. Go to **the second corner** and use the command ```/ls save pos2```.
- 4. **Type** ```/ls save go``` and wait for the end of the process.
+ 2. Go to **the first corner** and type the command ```/lschem save pos1```.
+ 3. Go to **the second corner** and use the command ```/lschem save pos2```.
+ 4. **Type** ```/lschem save go``` and wait for the end of the process.
  5. **Go** to the tool's web page ([click here](http://lwpdl.pythonanywhere.com/)).
  6. **Enter the token** you received from the server in the first field.
  7. **Click** on "*Download*" and you're done!
@@ -30,12 +30,12 @@ You want to convert one of your constructions into a "*.schematic*" file? Simply
 ### ② Sharing between servers
 You have a friend who would like to have your beautiful construction on his server? Simply follow these steps:
  1. **Find** the construction that you want to share.
- 2. Go to **the first corner** and type the command ```/ls save pos1```.
- 3. Go to **the second corner** and use the command ```/ls save pos2```.
- 4. **Type** ```/ls save go``` and wait for the end of the process.
+ 2. Go to **the first corner** and type the command ```/lschem save pos1```.
+ 3. Go to **the second corner** and use the command ```/lschem save pos2```.
+ 4. **Type** ```/lschem save go``` and wait for the end of the process.
  5. **Send** the token to your friend.
  6. Your friend **must stand** at the place **and look** in the direction in which he wants the construction to appear.
- 7. He just has to **type** ```/ls paste go <token>``` and wait for the build to appear.
+ 7. He just has to **type** ```/lschem paste go <token>``` and wait for the build to appear.
 
 ### ③ Uploading a construction
 You found a really cool build on Internet and you would like to have it on your server? Simply follow these steps:
@@ -43,7 +43,7 @@ You found a really cool build on Internet and you would like to have it on your 
  2. **Import** the file "*.schematic*" with the corresponding section.
  3. **Wait** until the import is finished and remember the token.
  4. **Go** to your server, **stand** at the place **and look** in the direction in which you want the construction to appear.
- 5. Just **type** ```/ls paste go <token>``` and wait for the build to appear.
+ 5. Just **type** ```/lschem paste go <token>``` and wait for the build to appear.
 
 ## Set up your own API server
 
