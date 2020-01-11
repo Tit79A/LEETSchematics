@@ -1,278 +1,278 @@
 cmd create ls Allows you to save your builds or make new ones appear!
-cmd add ls let %apiURL% = \"http://lwpdl.pythonanywhere.com/api\"
-cmd add ls let %playerStatus% = playerstatus(%p%)
-cmd add ls if %playerStatus%[\"op\"] = %true% then goto 6
-cmd add ls message %p% §cYou are not allowed to run this command.
-cmd add ls exit
-cmd add ls if varset(%args%[1]) then goto 9
-cmd add ls message %p% §f[§a§lLS§r§f] What do you want to do? Use '§c/ls help§f' to see the list of available commands.
-cmd add ls exit
-cmd add ls if %args%[1] = \"help\" then goto 14
-cmd add ls if %args%[1] = \"save\" then goto 16
-cmd add ls if %args%[1] = \"paste\" then goto 142
-cmd add ls message %p% §f[§a§lLS§r§f] I don't have this feature... Use '§c/ls help§f' to check if you have not made a mistake.
-cmd add ls exit
-cmd add ls message %p% \"§f----------  §a§lLEET Schematics Global Help§r§f  ----------\\n§c/ls save§f - Tools to backup your builds and keep them close to you.\\n§c/ls paste§f - Tools to magically pop up a structure.\\nUse '§chelp§f' argument after a command to see specific help.\"
-cmd add ls exit
-cmd add ls if varset(%args%[2]) then goto 19
-cmd add ls message %p% §f[§a§lLS§r§f] Hmm, I think you forgot something... Use '§c/ls save help§f' to see the list of available subcommands.
-cmd add ls exit
-cmd add ls if %args%[2] = \"help\" then goto 24
-cmd add ls if (%args%[2] = \"pos1\") or (%args%[2] = \"pos2\") then goto 26
-cmd add ls if %args%[2] = \"go\" then goto 64
-cmd add ls message %p% §f[§a§lLS§r§f] Did you really read the help page? Use '§c/ls save help§f' to see what you can do.
-cmd add ls exit
-cmd add ls message %p% \"§f----------  §a§lLEET Schematics Save Help§r§f  ----------\\n§c/ls save pos1§f - Allows you to define the first corner of the build.\\n§c/ls save pos2§f - If you've read right above, you should understand.\\n§c/ls save go§f - The command that will launch the mega final saving process (may cause lag).\\nI don't have any other subcommands in hand, sorry :/\"
-cmd add ls exit
-cmd add ls let %coordinates%[\"x\"] = int(%x%)
-cmd add ls let %coordinates%[\"y\"] = int(%y%)
-cmd add ls let %coordinates%[\"z\"] = int(%z%)
-cmd add ls load %leetSchematics%
-cmd add ls if varset(%leetSchematics%) then let %position% = %leetSchematics%[%p%]
-cmd add ls let %currentPositionName% = %args%[2]
-cmd add ls let %position%[%currentPositionName%] = %coordinates%
-cmd add ls let %leetSchematics%[%p%] = %position%
-cmd add ls save %leetSchematics%
-cmd add ls if %args%[2] = \"pos1\" then message %p% §f[§a§lLS§r§f] The position of the first corner has been successfully set.
-cmd add ls if %args%[2] = \"pos2\" then message %p% §f[§a§lLS§r§f] It's OK for the second corner now.
-cmd add ls if varset(%position%[\"pos1\"]) and varset(%position%[\"pos2\"]) then goto 39
-cmd add ls exit
-cmd add ls if %currentPositionName% = \"pos1\" then let %otherPositionName% = \"pos2\"
-cmd add ls if %currentPositionName% = \"pos2\" then let %otherPositionName% = \"pos1\"
-cmd add ls let %otherPositionCoordinates% = %position%[%otherPositionName%]
-cmd add ls let %xCoordinates% = sort(array(int(%x%), %otherPositionCoordinates%[\"x\"]))
-cmd add ls let %xMin% = %xCoordinates%[0]
-cmd add ls let %xMax% = %xCoordinates%[1]
-cmd add ls let %yCoordinates% = sort(array(int(%y%), %otherPositionCoordinates%[\"y\"]))
-cmd add ls let %yMin% = %yCoordinates%[0]
-cmd add ls let %yMax% = %yCoordinates%[1]
-cmd add ls let %zCoordinates% = sort(array(int(%z%), %otherPositionCoordinates%[\"z\"]))
-cmd add ls let %zMin% = %zCoordinates%[0]
-cmd add ls let %zMax% = %zCoordinates%[1]
-cmd add ls let %width% = (%xMax%-%xMin%) + 1
-cmd add ls let %height% = (%yMax%-%yMin%) + 1
-cmd add ls let %length% = (%zMax%-%zMin%) + 1
-cmd add ls let %selectionSize% = %width%*%height%*%length%
-cmd add ls let %getMaxSize% = geturl(join(array(%apiURL%, \"/ltj/getMaxSize\"), \"\"))
-cmd add ls if varset(%getMaxSize%) then goto 59
-cmd add ls message %p% §f[§a§lLS§r§f] Ouch, it seems that the API is not available, try again later.
-cmd add ls exit
-cmd add ls let %maxSelectionSize% = dejson(%getMaxSize%)
-cmd add ls if varset(%maxSelectionSize%) = %false% then goto 57
-cmd add ls if %selectionSize% < %maxSelectionSize% then message %p% §f[§a§lLS§r§f] Your selection is made up of§c %selectionSize% §fblocks, it's perfect!
-cmd add ls if %selectionSize% > %maxSelectionSize% then message %p% §f[§a§lLS§r§f] Ouch, I think your selection of§c %selectionSize% §fblocks is too big... Please make another one with less than§c %maxSelectionSize% §fblocks.
-cmd add ls exit
-cmd add ls load %leetSchematics%
-cmd add ls if varset(%leetSchematics%) = %false% then goto 68
-cmd add ls if varset(%leetSchematics%[%p%]) = %false% then goto 68
-cmd add ls goto 70
-cmd add ls message %p% §f[§a§lLS§r§f] You forgot to select a construction! Use '§c/ls save help§f' to learn how you can do it.
-cmd add ls exit
-cmd add ls let %position% = %leetSchematics%[%p%]
-cmd add ls if varset(%position%[\"pos1\"]) and varset(%position%[\"pos2\"]) then goto 74
-cmd add ls message %p% §f[§a§lLS§r§f] Hmm... You forgot to select at least one of the two corners. Use '§c/ls save help§f' to learn how you can do it.
-cmd add ls exit
-cmd add ls let %firstPositionCoordinates% = %position%[\"pos1\"]
-cmd add ls let %secondPositionCoordinates% = %position%[\"pos2\"]
-cmd add ls let %xCoordinates% = sort(array(%firstPositionCoordinates%[\"x\"], %secondPositionCoordinates%[\"x\"]))
-cmd add ls let %xMin% = %xCoordinates%[0]
-cmd add ls let %xMax% = %xCoordinates%[1]
-cmd add ls let %yCoordinates% = sort(array(%firstPositionCoordinates%[\"y\"], %secondPositionCoordinates%[\"y\"]))
-cmd add ls let %yMin% = %yCoordinates%[0]
-cmd add ls let %yMax% = %yCoordinates%[1]
-cmd add ls let %zCoordinates% = sort(array(%firstPositionCoordinates%[\"z\"], %secondPositionCoordinates%[\"z\"]))
-cmd add ls let %zMin% = %zCoordinates%[0]
-cmd add ls let %zMax% = %zCoordinates%[1]
-cmd add ls let %width% = (%xMax%-%xMin%) + 1
-cmd add ls let %height% = (%yMax%-%yMin%) + 1
-cmd add ls let %length% = (%zMax%-%zMin%) + 1
-cmd add ls let %selectionSize% = %width%*%height%*%length%
-cmd add ls let %getMaxSize% = geturl(join(array(%apiURL%, \"/ltj/getMaxSize\"), \"\"))
-cmd add ls if varset(%getMaxSize%) then goto 93
-cmd add ls message %p% §f[§a§lLS§r§f] Ouch, it seems that the API is not available, try again later.
-cmd add ls exit
-cmd add ls let %maxSelectionSize% = dejson(%getMaxSize%)
-cmd add ls if varset(%maxSelectionSize%) = %false% then goto 91
-cmd add ls if %selectionSize% < %maxSelectionSize% then goto 98
-cmd add ls message %p% §f[§a§lLS§r§f] Ouch, I think your selection of§c %selectionSize% §fblocks is too big... Please make another one with less than§c %maxSelectionSize% §fblocks.
-cmd add ls exit
-cmd add ls message %p% §f[§a§lLS§r§f] Starting up the engines...
-cmd add ls let %token% = geturl(join(array(%apiURL%, \"/ltj/new/\", join(array(%width%, %height%, %length%), \",\")), \"\"))
-cmd add ls if position(%token%, \"Error\") = -1 then goto 103
-cmd add ls message %p% §f[§a§lLS§r§f] §c%token%
-cmd add ls exit
-cmd add ls let %maxPacketSize% = 500
-cmd add ls let %packetsNumber% = int(%selectionSize% / %maxPacketSize%) + 1
-cmd add ls message %p% §f[§a§lLS§r§f] Loading the cargo of %selectionSize% blocks in %packetsNumber% packets...
-cmd add ls let %currentx% = 0
-cmd add ls let %currenty% = 0
-cmd add ls let %currentz% = 0
-cmd add ls let %packetNb% = 1
-cmd add ls if %currentx% = %width% then goto 133
-cmd add ls if %currenty% = %height% then goto 123
-cmd add ls if %currentz% = %length% then goto 120
-cmd add ls let %currentBlockInfo% = blockinfo(%level%, (%xMin% + %currentx%), (%yMin% + %currenty%), (%zMin% + %currentz%))
-cmd add ls let %currentBlockId% = %currentBlockInfo%[\"id\"]
-cmd add ls let %currentBlockVariant% = %currentBlockInfo%[\"variant\"]
-cmd add ls let %blocksList%[] = join(array(%currentBlockId%, %currentBlockVariant%), \":\")
-cmd add ls if size(%blocksList%) > %maxPacketSize% then goto 127
-cmd add ls let %currentz% = %currentz% + 1
-cmd add ls goto 112
-cmd add ls let %currenty% = %currenty% + 1
-cmd add ls let %currentz% = 0
-cmd add ls goto 111
-cmd add ls let %currentx% = %currentx% + 1
-cmd add ls let %currenty% = 0
-cmd add ls let %currentz% = 0
-cmd add ls goto 110
-cmd add ls let %result% = geturl(join(array(%apiURL%, \"/ltj/ul/\", %token%, \"/\", %packetNb%, \"/\", join(%blocksList%, \",\")), \"\"))
-cmd add ls if position(%result%, \"Error\") != -1 then goto 127
-cmd add ls message %p% §f[§a§lLS§r§f] Package %packetNb%/%packetsNumber% correctly loaded!
-cmd add ls %packetNb% = %packetNb% + 1
-cmd add ls %blocksList% = array() - array()
-cmd add ls goto 118
-cmd add ls let %result% = geturl(join(array(%apiURL%, \"/ltj/ul/\", %token%, \"/\", %packetNb%, \"/\", join(%blocksList%, \",\")), \"\"))
-cmd add ls if position(%result%, \"OK\") = -1 then goto 133
-cmd add ls message %p% §f[§a§lLS§r§f] Each one of the %packetsNumber% packets has been shipped!
-cmd add ls let %result% = geturl(join(array(%apiURL%, \"/ltj/end/\", %token%), \"\"))
-cmd add ls if position(%result%, \"Error\") = -1 then goto 140
-cmd add ls message %p% §f[§a§lLS§r§f] §c%result%
-cmd add ls exit
-cmd add ls message %p% §f[§a§lLS§r§f] Congratulations, your build has flown away in the clouds! The code to find it is: '§c%token%§f'.
-cmd add ls exit
-cmd add ls if varset(%args%[2]) then goto 145
-cmd add ls message %p% §f[§a§lLS§r§f] Hmm, I think you forgot something... Use '§c/ls paste help§f' to see the list of available subcommands.
-cmd add ls exit
-cmd add ls if %args%[2] = \"help\" then goto 150
-cmd add ls if %args%[2] = \"go\" then goto 152
-cmd add ls if %args%[2] = \"back\" then goto 222
-cmd add ls message %p% §f[§a§lLS§r§f] Did you really read the help page? Use '§c/ls paste help§f' to see what you can do.
-cmd add ls exit
-cmd add ls message %p% \"§f----------  §a§lLEET Schematics Paste Help§r§f  ----------\\n§c/ls paste go <token>§f - Makes the construction with the given token appear. Its orientation depends on where you are looking.\\n§c/ls paste back§f - Use it if you think you've just made the biggest mistake of your life.\\nI don't have any other subcommands in hand, sorry :/\"
-cmd add ls exit
-cmd add ls if varset(%args%[3]) then goto 155
-cmd add ls message %p% §f[§a§lLS§r§f] You forgot something. The construction token is missing!
-cmd add ls exit
-cmd add ls let %token% = %args%[3]
-cmd add ls let %getBuildData% = geturl(join(array(%apiURL%, \"/jtl/\", %token%), \"\"))
-cmd add ls if varset(%getBuildData%) then goto 160
-cmd add ls message %p% §f[§a§lLS§r§f] Ouch, it seems that the API is not available, try again later.
-cmd add ls exit
-cmd add ls let %buildData% = dejson(%getBuildData%)
-cmd add ls if varset(%buildData%) = %false% then goto 158
-cmd add ls let %width% = %buildData%[\"width\"]
-cmd add ls let %height% = %buildData%[\"height\"]
-cmd add ls let %length% = %buildData%[\"length\"]
-cmd add ls let %blocksList% = %buildData%[\"blocks\"]
-cmd add ls let %direction% = int(%yaw%/90)
-cmd add ls let %currentx% = 0
-cmd add ls let %currenty% = 0
-cmd add ls let %currentz% = 0
-cmd add ls let %currentBlockKey% = 0
-cmd add ls message %p% §f[§a§lLS§r§f] The process has started, please wait...
-cmd add ls if %currentx% = %width% then goto 208
-cmd add ls if %currenty% = %height% then goto 189
-cmd add ls if %currentz% = %length% then goto 186
-cmd add ls goto 193
-cmd add ls let %realCurrenty% = %y% + %currenty%
-cmd add ls let %currentOldBlockInfo% = blockinfo(%level%, %realCurrentx%, %realCurrenty%, %realCurrentz%)
-cmd add ls let %currentOldBlockId% = %currentOldBlockInfo%[\"id\"]
-cmd add ls let %currentOldBlockVariant% = %currentOldBlockInfo%[\"variant\"]
-cmd add ls let %oldBlocksList%[] = join(array(%currentOldBlockId%, %currentOldBlockVariant%), \":\")
-cmd add ls let %currentNewBlock% = %blocksList%[%currentBlockKey%]
-cmd add ls block %level% %realCurrentx% %realCurrenty% %realCurrentz% %currentNewBlock%
-cmd add ls let %currentBlockKey% = %currentBlockKey% + 1
-cmd add ls let %currentz% = %currentz% + 1
-cmd add ls goto 174
-cmd add ls let %currenty% = %currenty% + 1
-cmd add ls let %currentz% = 0
-cmd add ls goto 173
-cmd add ls let %currentx% = %currentx% + 1
-cmd add ls let %currenty% = 0
-cmd add ls let %currentz% = 0
-cmd add ls goto 172
-cmd add ls if %direction% != 3 then goto 197
-cmd add ls let %realCurrentx% = %x% + %currentx%
-cmd add ls let %realCurrentz% = %z% + %currentz%
-cmd add ls goto 176
-cmd add ls if %direction% != 2 then goto 201
-cmd add ls let %realCurrentx% = %x% + %currentz%
-cmd add ls let %realCurrentz% = %z% - %currentx%
-cmd add ls goto 176
-cmd add ls if %direction% != 1 then goto 205
-cmd add ls let %realCurrentx% = %x% - %currentx%
-cmd add ls let %realCurrentz% = %z% - %currentz%
-cmd add ls goto 176
-cmd add ls let %realCurrentx% = %x% - %currentz%
-cmd add ls let %realCurrentz% = %z% + %currentx%
-cmd add ls goto 176
-cmd add ls let %oldBuildData%[\"x\"] = %x%
-cmd add ls let %oldBuildData%[\"y\"] = %y%
-cmd add ls let %oldBuildData%[\"z\"] = %z%
-cmd add ls let %oldBuildData%[\"direction\"] = %direction%
-cmd add ls let %oldBuildData%[\"width\"] = %width%
-cmd add ls let %oldBuildData%[\"height\"] = %height%
-cmd add ls let %oldBuildData%[\"length\"] = %length%
-cmd add ls let %oldBuildData%[\"blocks\"] = %oldBlocksList%
-cmd add ls let %player%[\"oldBuildData\"] = %oldBuildData%
-cmd add ls load %leetSchematics%
-cmd add ls let %leetSchematics%[%p%] = %player%
-cmd add ls save %leetSchematics%
-cmd add ls message %p% §f[§a§lLS§r§f] Congratulations! A wild construction has appeared. If you are not happy with the result, type '§c/ls paste back§f' to revert the changes.
-cmd add ls exit
-cmd add ls load %leetSchematics%
-cmd add ls if varset(%leetSchematics%) = %false% then goto 228
-cmd add ls if varset(%leetSchematics%[%p%]) = %false% then goto 228
-cmd add ls let %player% = %leetSchematics%[%p%]
-cmd add ls if varset(%player%[\"oldBuildData\"]) = %false% then goto 228
-cmd add ls goto 230
-cmd add ls message %p% §f[§a§lLS§r§f] Why go back if nothing has changed? Use '§c/ls paste help§f' to check if you are using the correct command.
-cmd add ls exit
-cmd add ls let %oldBuildData% = %player%[\"oldBuildData\"]
-cmd add ls let %originx% = %oldBuildData%[\"x\"]
-cmd add ls let %originy% = %oldBuildData%[\"y\"]
-cmd add ls let %originz% = %oldBuildData%[\"z\"]
-cmd add ls let %direction% = %oldBuildData%[\"direction\"]
-cmd add ls let %width% = %oldBuildData%[\"width\"]
-cmd add ls let %height% = %oldBuildData%[\"height\"]
-cmd add ls let %length% = %oldBuildData%[\"length\"]
-cmd add ls let %blocksList% = %oldBuildData%[\"blocks\"]
-cmd add ls let %currentx% = 0
-cmd add ls let %currenty% = 0
-cmd add ls let %currentz% = 0
-cmd add ls let %currentBlockKey% = 0
-cmd add ls message %p% §f[§a§lLS§r§f] The process has started, please wait...
-cmd add ls if %currentx% = %width% then goto 276
-cmd add ls if %currenty% = %height% then goto 257
-cmd add ls if %currentz% = %length% then goto 254
-cmd add ls goto 261
-cmd add ls let %realCurrenty% = %originy% + %currenty%
-cmd add ls let %currentNewBlock% = %blocksList%[%currentBlockKey%]
-cmd add ls block %level% %realCurrentx% %realCurrenty% %realCurrentz% %currentNewBlock%
-cmd add ls let %currentBlockKey% = %currentBlockKey% + 1
-cmd add ls let %currentz% = %currentz% + 1
-cmd add ls goto 246
-cmd add ls let %currenty% = %currenty% + 1
-cmd add ls let %currentz% = 0
-cmd add ls goto 245
-cmd add ls let %currentx% = %currentx% + 1
-cmd add ls let %currenty% = 0
-cmd add ls let %currentz% = 0
-cmd add ls goto 244
-cmd add ls if %direction% != 3 then goto 265
-cmd add ls let %realCurrentx% = %originx% + %currentx%
-cmd add ls let %realCurrentz% = %originz% + %currentz%
-cmd add ls goto 248
-cmd add ls if %direction% != 2 then goto 269
-cmd add ls let %realCurrentx% = %originx% + %currentz%
-cmd add ls let %realCurrentz% = %originz% - %currentx%
-cmd add ls goto 248
-cmd add ls if %direction% != 1 then goto 273
-cmd add ls let %realCurrentx% = %originx% - %currentx%
-cmd add ls let %realCurrentz% = %originz% - %currentz%
-cmd add ls goto 248
-cmd add ls let %realCurrentx% = %originx% - %currentz%
-cmd add ls let %realCurrentz% = %originz% + %currentx%
-cmd add ls goto 248
-cmd add ls message %p% §f[§a§lLS§r§f] That's it, everything's back to normal.
-cmd add ls exit
+cmd edit ls 1 let %apiURL% = \"http://lwpdl.pythonanywhere.com/api\"
+cmd edit ls 2 let %playerStatus% = playerstatus(%p%)
+cmd edit ls 3 if %playerStatus%[\"op\"] = %true% then goto 6
+cmd edit ls 4 message %p% §cYou are not allowed to run this command.
+cmd edit ls 5 exit
+cmd edit ls 6 if varset(%args%[1]) then goto 9
+cmd edit ls 7 message %p% §f[§a§lLS§r§f] What do you want to do? Use '§c/ls help§f' to see the list of available commands.
+cmd edit ls 8 exit
+cmd edit ls 9 if %args%[1] = \"help\" then goto 14
+cmd edit ls 10 if %args%[1] = \"save\" then goto 16
+cmd edit ls 11 if %args%[1] = \"paste\" then goto 142
+cmd edit ls 12 message %p% §f[§a§lLS§r§f] I don't have this feature... Use '§c/ls help§f' to check if you have not made a mistake.
+cmd edit ls 13 exit
+cmd edit ls 14 message %p% \"§f----------  §a§lLEET Schematics Global Help§r§f  ----------\\n§c/ls save§f - Tools to backup your builds and keep them close to you.\\n§c/ls paste§f - Tools to magically pop up a structure.\\nUse '§chelp§f' argument after a command to see specific help.\"
+cmd edit ls 15 exit
+cmd edit ls 16 if varset(%args%[2]) then goto 19
+cmd edit ls 17 message %p% §f[§a§lLS§r§f] Hmm, I think you forgot something... Use '§c/ls save help§f' to see the list of available subcommands.
+cmd edit ls 18 exit
+cmd edit ls 19 if %args%[2] = \"help\" then goto 24
+cmd edit ls 20 if (%args%[2] = \"pos1\") or (%args%[2] = \"pos2\") then goto 26
+cmd edit ls 21 if %args%[2] = \"go\" then goto 64
+cmd edit ls 22 message %p% §f[§a§lLS§r§f] Did you really read the help page? Use '§c/ls save help§f' to see what you can do.
+cmd edit ls 23 exit
+cmd edit ls 24 message %p% \"§f----------  §a§lLEET Schematics Save Help§r§f  ----------\\n§c/ls save pos1§f - Allows you to define the first corner of the build.\\n§c/ls save pos2§f - If you've read right above, you should understand.\\n§c/ls save go§f - The command that will launch the mega final saving process (may cause lag).\\nI don't have any other subcommands in hand, sorry :/\"
+cmd edit ls 25 exit
+cmd edit ls 26 let %coordinates%[\"x\"] = int(%x%)
+cmd edit ls 27 let %coordinates%[\"y\"] = int(%y%)
+cmd edit ls 28 let %coordinates%[\"z\"] = int(%z%)
+cmd edit ls 29 load %leetSchematics%
+cmd edit ls 30 if varset(%leetSchematics%) then let %position% = %leetSchematics%[%p%]
+cmd edit ls 31 let %currentPositionName% = %args%[2]
+cmd edit ls 32 let %position%[%currentPositionName%] = %coordinates%
+cmd edit ls 33 let %leetSchematics%[%p%] = %position%
+cmd edit ls 34 save %leetSchematics%
+cmd edit ls 35 if %args%[2] = \"pos1\" then message %p% §f[§a§lLS§r§f] The position of the first corner has been successfully set.
+cmd edit ls 36 if %args%[2] = \"pos2\" then message %p% §f[§a§lLS§r§f] It's OK for the second corner now.
+cmd edit ls 37 if varset(%position%[\"pos1\"]) and varset(%position%[\"pos2\"]) then goto 39
+cmd edit ls 38 exit
+cmd edit ls 39 if %currentPositionName% = \"pos1\" then let %otherPositionName% = \"pos2\"
+cmd edit ls 40 if %currentPositionName% = \"pos2\" then let %otherPositionName% = \"pos1\"
+cmd edit ls 41 let %otherPositionCoordinates% = %position%[%otherPositionName%]
+cmd edit ls 42 let %xCoordinates% = sort(array(int(%x%), %otherPositionCoordinates%[\"x\"]))
+cmd edit ls 43 let %xMin% = %xCoordinates%[0]
+cmd edit ls 44 let %xMax% = %xCoordinates%[1]
+cmd edit ls 45 let %yCoordinates% = sort(array(int(%y%), %otherPositionCoordinates%[\"y\"]))
+cmd edit ls 46 let %yMin% = %yCoordinates%[0]
+cmd edit ls 47 let %yMax% = %yCoordinates%[1]
+cmd edit ls 48 let %zCoordinates% = sort(array(int(%z%), %otherPositionCoordinates%[\"z\"]))
+cmd edit ls 49 let %zMin% = %zCoordinates%[0]
+cmd edit ls 50 let %zMax% = %zCoordinates%[1]
+cmd edit ls 51 let %width% = (%xMax%-%xMin%) + 1
+cmd edit ls 52 let %height% = (%yMax%-%yMin%) + 1
+cmd edit ls 53 let %length% = (%zMax%-%zMin%) + 1
+cmd edit ls 54 let %selectionSize% = %width%*%height%*%length%
+cmd edit ls 55 let %getMaxSize% = geturl(join(array(%apiURL%, \"/ltj/getMaxSize\"), \"\"))
+cmd edit ls 56 if varset(%getMaxSize%) then goto 59
+cmd edit ls 57 message %p% §f[§a§lLS§r§f] Ouch, it seems that the API is not available, try again later.
+cmd edit ls 58 exit
+cmd edit ls 59 let %maxSelectionSize% = dejson(%getMaxSize%)
+cmd edit ls 60 if varset(%maxSelectionSize%) = %false% then goto 57
+cmd edit ls 61 if %selectionSize% < %maxSelectionSize% then message %p% §f[§a§lLS§r§f] Your selection is made up of§c %selectionSize% §fblocks, it's perfect!
+cmd edit ls 62 if %selectionSize% > %maxSelectionSize% then message %p% §f[§a§lLS§r§f] Ouch, I think your selection of§c %selectionSize% §fblocks is too big... Please make another one with less than§c %maxSelectionSize% §fblocks.
+cmd edit ls 63 exit
+cmd edit ls 64 load %leetSchematics%
+cmd edit ls 65 if varset(%leetSchematics%) = %false% then goto 68
+cmd edit ls 66 if varset(%leetSchematics%[%p%]) = %false% then goto 68
+cmd edit ls 67 goto 70
+cmd edit ls 68 message %p% §f[§a§lLS§r§f] You forgot to select a construction! Use '§c/ls save help§f' to learn how you can do it.
+cmd edit ls 69 exit
+cmd edit ls 70 let %position% = %leetSchematics%[%p%]
+cmd edit ls 71 if varset(%position%[\"pos1\"]) and varset(%position%[\"pos2\"]) then goto 74
+cmd edit ls 72 message %p% §f[§a§lLS§r§f] Hmm... You forgot to select at least one of the two corners. Use '§c/ls save help§f' to learn how you can do it.
+cmd edit ls 73 exit
+cmd edit ls 74 let %firstPositionCoordinates% = %position%[\"pos1\"]
+cmd edit ls 75 let %secondPositionCoordinates% = %position%[\"pos2\"]
+cmd edit ls 76 let %xCoordinates% = sort(array(%firstPositionCoordinates%[\"x\"], %secondPositionCoordinates%[\"x\"]))
+cmd edit ls 77 let %xMin% = %xCoordinates%[0]
+cmd edit ls 78 let %xMax% = %xCoordinates%[1]
+cmd edit ls 79 let %yCoordinates% = sort(array(%firstPositionCoordinates%[\"y\"], %secondPositionCoordinates%[\"y\"]))
+cmd edit ls 80 let %yMin% = %yCoordinates%[0]
+cmd edit ls 81 let %yMax% = %yCoordinates%[1]
+cmd edit ls 82 let %zCoordinates% = sort(array(%firstPositionCoordinates%[\"z\"], %secondPositionCoordinates%[\"z\"]))
+cmd edit ls 83 let %zMin% = %zCoordinates%[0]
+cmd edit ls 84 let %zMax% = %zCoordinates%[1]
+cmd edit ls 85 let %width% = (%xMax%-%xMin%) + 1
+cmd edit ls 86 let %height% = (%yMax%-%yMin%) + 1
+cmd edit ls 87 let %length% = (%zMax%-%zMin%) + 1
+cmd edit ls 88 let %selectionSize% = %width%*%height%*%length%
+cmd edit ls 89 let %getMaxSize% = geturl(join(array(%apiURL%, \"/ltj/getMaxSize\"), \"\"))
+cmd edit ls 90 if varset(%getMaxSize%) then goto 93
+cmd edit ls 91 message %p% §f[§a§lLS§r§f] Ouch, it seems that the API is not available, try again later.
+cmd edit ls 92 exit
+cmd edit ls 93 let %maxSelectionSize% = dejson(%getMaxSize%)
+cmd edit ls 94 if varset(%maxSelectionSize%) = %false% then goto 91
+cmd edit ls 95 if %selectionSize% < %maxSelectionSize% then goto 98
+cmd edit ls 96 message %p% §f[§a§lLS§r§f] Ouch, I think your selection of§c %selectionSize% §fblocks is too big... Please make another one with less than§c %maxSelectionSize% §fblocks.
+cmd edit ls 97 exit
+cmd edit ls 98 message %p% §f[§a§lLS§r§f] Starting up the engines...
+cmd edit ls 99 let %token% = geturl(join(array(%apiURL%, \"/ltj/new/\", join(array(%width%, %height%, %length%), \",\")), \"\"))
+cmd edit ls 100 if position(%token%, \"Error\") = -1 then goto 103
+cmd edit ls 101 message %p% §f[§a§lLS§r§f] §c%token%
+cmd edit ls 102 exit
+cmd edit ls 103 let %maxPacketSize% = 500
+cmd edit ls 104 let %packetsNumber% = int(%selectionSize% / %maxPacketSize%) + 1
+cmd edit ls 105 message %p% §f[§a§lLS§r§f] Loading the cargo of %selectionSize% blocks in %packetsNumber% packets...
+cmd edit ls 106 let %currentx% = 0
+cmd edit ls 107 let %currenty% = 0
+cmd edit ls 108 let %currentz% = 0
+cmd edit ls 109 let %packetNb% = 1
+cmd edit ls 110 if %currentx% = %width% then goto 133
+cmd edit ls 111 if %currenty% = %height% then goto 123
+cmd edit ls 112 if %currentz% = %length% then goto 120
+cmd edit ls 113 let %currentBlockInfo% = blockinfo(%level%, (%xMin% + %currentx%), (%yMin% + %currenty%), (%zMin% + %currentz%))
+cmd edit ls 114 let %currentBlockId% = %currentBlockInfo%[\"id\"]
+cmd edit ls 115 let %currentBlockVariant% = %currentBlockInfo%[\"variant\"]
+cmd edit ls 116 let %blocksList%[] = join(array(%currentBlockId%, %currentBlockVariant%), \":\")
+cmd edit ls 117 if size(%blocksList%) > %maxPacketSize% then goto 127
+cmd edit ls 118 let %currentz% = %currentz% + 1
+cmd edit ls 119 goto 112
+cmd edit ls 120 let %currenty% = %currenty% + 1
+cmd edit ls 121 let %currentz% = 0
+cmd edit ls 122 goto 111
+cmd edit ls 123 let %currentx% = %currentx% + 1
+cmd edit ls 124 let %currenty% = 0
+cmd edit ls 125 let %currentz% = 0
+cmd edit ls 126 goto 110
+cmd edit ls 127 let %result% = geturl(join(array(%apiURL%, \"/ltj/ul/\", %token%, \"/\", %packetNb%, \"/\", join(%blocksList%, \",\")), \"\"))
+cmd edit ls 128 if position(%result%, \"Error\") != -1 then goto 127
+cmd edit ls 129 message %p% §f[§a§lLS§r§f] Package %packetNb%/%packetsNumber% correctly loaded!
+cmd edit ls 130 %packetNb% = %packetNb% + 1
+cmd edit ls 131 %blocksList% = array() - array()
+cmd edit ls 132 goto 118
+cmd edit ls 133 let %result% = geturl(join(array(%apiURL%, \"/ltj/ul/\", %token%, \"/\", %packetNb%, \"/\", join(%blocksList%, \",\")), \"\"))
+cmd edit ls 134 if position(%result%, \"OK\") = -1 then goto 133
+cmd edit ls 135 message %p% §f[§a§lLS§r§f] Each one of the %packetsNumber% packets has been shipped!
+cmd edit ls 136 let %result% = geturl(join(array(%apiURL%, \"/ltj/end/\", %token%), \"\"))
+cmd edit ls 137 if position(%result%, \"Error\") = -1 then goto 140
+cmd edit ls 138 message %p% §f[§a§lLS§r§f] §c%result%
+cmd edit ls 139 exit
+cmd edit ls 140 message %p% §f[§a§lLS§r§f] Congratulations, your build has flown away in the clouds! The code to find it is: '§c%token%§f'.
+cmd edit ls 141 exit
+cmd edit ls 142 if varset(%args%[2]) then goto 145
+cmd edit ls 143 message %p% §f[§a§lLS§r§f] Hmm, I think you forgot something... Use '§c/ls paste help§f' to see the list of available subcommands.
+cmd edit ls 144 exit
+cmd edit ls 145 if %args%[2] = \"help\" then goto 150
+cmd edit ls 146 if %args%[2] = \"go\" then goto 152
+cmd edit ls 147 if %args%[2] = \"back\" then goto 222
+cmd edit ls 148 message %p% §f[§a§lLS§r§f] Did you really read the help page? Use '§c/ls paste help§f' to see what you can do.
+cmd edit ls 149 exit
+cmd edit ls 150 message %p% \"§f----------  §a§lLEET Schematics Paste Help§r§f  ----------\\n§c/ls paste go <token>§f - Makes the construction with the given token appear. Its orientation depends on where you are looking.\\n§c/ls paste back§f - Use it if you think you've just made the biggest mistake of your life.\\nI don't have any other subcommands in hand, sorry :/\"
+cmd edit ls 151 exit
+cmd edit ls 152 if varset(%args%[3]) then goto 155
+cmd edit ls 153 message %p% §f[§a§lLS§r§f] You forgot something. The construction token is missing!
+cmd edit ls 154 exit
+cmd edit ls 155 let %token% = %args%[3]
+cmd edit ls 156 let %getBuildData% = geturl(join(array(%apiURL%, \"/jtl/\", %token%), \"\"))
+cmd edit ls 157 if varset(%getBuildData%) then goto 160
+cmd edit ls 158 message %p% §f[§a§lLS§r§f] Ouch, it seems that the API is not available, try again later.
+cmd edit ls 159 exit
+cmd edit ls 160 let %buildData% = dejson(%getBuildData%)
+cmd edit ls 161 if varset(%buildData%) = %false% then goto 158
+cmd edit ls 162 let %width% = %buildData%[\"width\"]
+cmd edit ls 163 let %height% = %buildData%[\"height\"]
+cmd edit ls 164 let %length% = %buildData%[\"length\"]
+cmd edit ls 165 let %blocksList% = %buildData%[\"blocks\"]
+cmd edit ls 166 let %direction% = int(%yaw%/90)
+cmd edit ls 167 let %currentx% = 0
+cmd edit ls 168 let %currenty% = 0
+cmd edit ls 169 let %currentz% = 0
+cmd edit ls 170 let %currentBlockKey% = 0
+cmd edit ls 171 message %p% §f[§a§lLS§r§f] The process has started, please wait...
+cmd edit ls 172 if %currentx% = %width% then goto 208
+cmd edit ls 173 if %currenty% = %height% then goto 189
+cmd edit ls 174 if %currentz% = %length% then goto 186
+cmd edit ls 175 goto 193
+cmd edit ls 176 let %realCurrenty% = %y% + %currenty%
+cmd edit ls 177 let %currentOldBlockInfo% = blockinfo(%level%, %realCurrentx%, %realCurrenty%, %realCurrentz%)
+cmd edit ls 178 let %currentOldBlockId% = %currentOldBlockInfo%[\"id\"]
+cmd edit ls 179 let %currentOldBlockVariant% = %currentOldBlockInfo%[\"variant\"]
+cmd edit ls 180 let %oldBlocksList%[] = join(array(%currentOldBlockId%, %currentOldBlockVariant%), \":\")
+cmd edit ls 181 let %currentNewBlock% = %blocksList%[%currentBlockKey%]
+cmd edit ls 182 block %level% %realCurrentx% %realCurrenty% %realCurrentz% %currentNewBlock%
+cmd edit ls 183 let %currentBlockKey% = %currentBlockKey% + 1
+cmd edit ls 184 let %currentz% = %currentz% + 1
+cmd edit ls 185 goto 174
+cmd edit ls 186 let %currenty% = %currenty% + 1
+cmd edit ls 187 let %currentz% = 0
+cmd edit ls 188 goto 173
+cmd edit ls 189 let %currentx% = %currentx% + 1
+cmd edit ls 190 let %currenty% = 0
+cmd edit ls 191 let %currentz% = 0
+cmd edit ls 192 goto 172
+cmd edit ls 193 if %direction% != 3 then goto 197
+cmd edit ls 194 let %realCurrentx% = %x% + %currentx%
+cmd edit ls 195 let %realCurrentz% = %z% + %currentz%
+cmd edit ls 196 goto 176
+cmd edit ls 197 if %direction% != 2 then goto 201
+cmd edit ls 198 let %realCurrentx% = %x% + %currentz%
+cmd edit ls 199 let %realCurrentz% = %z% - %currentx%
+cmd edit ls 200 goto 176
+cmd edit ls 201 if %direction% != 1 then goto 205
+cmd edit ls 202 let %realCurrentx% = %x% - %currentx%
+cmd edit ls 203 let %realCurrentz% = %z% - %currentz%
+cmd edit ls 204 goto 176
+cmd edit ls 205 let %realCurrentx% = %x% - %currentz%
+cmd edit ls 206 let %realCurrentz% = %z% + %currentx%
+cmd edit ls 207 goto 176
+cmd edit ls 208 let %oldBuildData%[\"x\"] = %x%
+cmd edit ls 209 let %oldBuildData%[\"y\"] = %y%
+cmd edit ls 210 let %oldBuildData%[\"z\"] = %z%
+cmd edit ls 211 let %oldBuildData%[\"direction\"] = %direction%
+cmd edit ls 212 let %oldBuildData%[\"width\"] = %width%
+cmd edit ls 213 let %oldBuildData%[\"height\"] = %height%
+cmd edit ls 214 let %oldBuildData%[\"length\"] = %length%
+cmd edit ls 215 let %oldBuildData%[\"blocks\"] = %oldBlocksList%
+cmd edit ls 216 let %player%[\"oldBuildData\"] = %oldBuildData%
+cmd edit ls 217 load %leetSchematics%
+cmd edit ls 218 let %leetSchematics%[%p%] = %player%
+cmd edit ls 219 save %leetSchematics%
+cmd edit ls 220 message %p% §f[§a§lLS§r§f] Congratulations! A wild construction has appeared. If you are not happy with the result, type '§c/ls paste back§f' to revert the changes.
+cmd edit ls 221 exit
+cmd edit ls 222 load %leetSchematics%
+cmd edit ls 223 if varset(%leetSchematics%) = %false% then goto 228
+cmd edit ls 224 if varset(%leetSchematics%[%p%]) = %false% then goto 228
+cmd edit ls 225 let %player% = %leetSchematics%[%p%]
+cmd edit ls 226 if varset(%player%[\"oldBuildData\"]) = %false% then goto 228
+cmd edit ls 227 goto 230
+cmd edit ls 228 message %p% §f[§a§lLS§r§f] Why go back if nothing has changed? Use '§c/ls paste help§f' to check if you are using the correct command.
+cmd edit ls 229 exit
+cmd edit ls 230 let %oldBuildData% = %player%[\"oldBuildData\"]
+cmd edit ls 231 let %originx% = %oldBuildData%[\"x\"]
+cmd edit ls 232 let %originy% = %oldBuildData%[\"y\"]
+cmd edit ls 233 let %originz% = %oldBuildData%[\"z\"]
+cmd edit ls 234 let %direction% = %oldBuildData%[\"direction\"]
+cmd edit ls 235 let %width% = %oldBuildData%[\"width\"]
+cmd edit ls 236 let %height% = %oldBuildData%[\"height\"]
+cmd edit ls 237 let %length% = %oldBuildData%[\"length\"]
+cmd edit ls 238 let %blocksList% = %oldBuildData%[\"blocks\"]
+cmd edit ls 239 let %currentx% = 0
+cmd edit ls 240 let %currenty% = 0
+cmd edit ls 241 let %currentz% = 0
+cmd edit ls 242 let %currentBlockKey% = 0
+cmd edit ls 243 message %p% §f[§a§lLS§r§f] The process has started, please wait...
+cmd edit ls 244 if %currentx% = %width% then goto 276
+cmd edit ls 245 if %currenty% = %height% then goto 257
+cmd edit ls 246 if %currentz% = %length% then goto 254
+cmd edit ls 247 goto 261
+cmd edit ls 248 let %realCurrenty% = %originy% + %currenty%
+cmd edit ls 249 let %currentNewBlock% = %blocksList%[%currentBlockKey%]
+cmd edit ls 250 block %level% %realCurrentx% %realCurrenty% %realCurrentz% %currentNewBlock%
+cmd edit ls 251 let %currentBlockKey% = %currentBlockKey% + 1
+cmd edit ls 252 let %currentz% = %currentz% + 1
+cmd edit ls 253 goto 246
+cmd edit ls 254 let %currenty% = %currenty% + 1
+cmd edit ls 255 let %currentz% = 0
+cmd edit ls 256 goto 245
+cmd edit ls 257 let %currentx% = %currentx% + 1
+cmd edit ls 258 let %currenty% = 0
+cmd edit ls 259 let %currentz% = 0
+cmd edit ls 260 goto 244
+cmd edit ls 261 if %direction% != 3 then goto 265
+cmd edit ls 262 let %realCurrentx% = %originx% + %currentx%
+cmd edit ls 263 let %realCurrentz% = %originz% + %currentz%
+cmd edit ls 264 goto 248
+cmd edit ls 265 if %direction% != 2 then goto 269
+cmd edit ls 266 let %realCurrentx% = %originx% + %currentz%
+cmd edit ls 267 let %realCurrentz% = %originz% - %currentx%
+cmd edit ls 268 goto 248
+cmd edit ls 269 if %direction% != 1 then goto 273
+cmd edit ls 270 let %realCurrentx% = %originx% - %currentx%
+cmd edit ls 271 let %realCurrentz% = %originz% - %currentz%
+cmd edit ls 272 goto 248
+cmd edit ls 273 let %realCurrentx% = %originx% - %currentz%
+cmd edit ls 274 let %realCurrentz% = %originz% + %currentx%
+cmd edit ls 275 goto 248
+cmd edit ls 276 message %p% §f[§a§lLS§r§f] That's it, everything's back to normal.
+cmd edit ls 277 exit
